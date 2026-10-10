@@ -114,6 +114,19 @@
             layers = <0>;
         };
 
+        // Safety combos. Studio can't change combos, so these always work.
+        combo_studio_unlock {
+            timeout-ms = <80>;
+            key-positions = <0 11>;             // top-left + top-right corner keys -> unlock ZMK Studio
+            bindings = <&studio_unlock>;
+        };
+
+        combo_bootloader_left {
+            timeout-ms = <80>;
+            key-positions = <0 12 24>;          // left outer column, top 3 keys (Esc+Tab+Shift) -> left half bootloader
+            bindings = <&bootloader>;
+        };
+
         combo_dictation {
             timeout-ms = <50>;
             key-positions = <52 55>;            // Space + Enter thumbs -> Ctrl+Win+Space (Wispr Flow)
