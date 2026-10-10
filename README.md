@@ -14,7 +14,7 @@ Every push to this branch builds automatically: **Actions** tab → latest run o
 → download the **firmware** zip at the bottom.
 
 ## Flashing (each half separately, over USB)
-1. Enter bootloader: hold **Raise** + top-left key (left half) or top-right key (right half).
+1. Enter bootloader: hold **FN (Nav) + right layer thumb** + top-left key (left half) or top-right key (right half). Left half only: **FN + top-left key**.
    Fallback: short RST to GND twice quickly with tweezers.
 2. Drag the matching `.uf2` onto the drive that appears (NICENANO).
    - `lily58_left ... .uf2` → left half
