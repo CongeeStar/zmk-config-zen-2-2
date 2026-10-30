@@ -14,7 +14,7 @@
  *   0 Base
  *   1 Nav   hold left middle thumb   (left hand holds modifiers, right hand moves)
  *   2 Sym   hold right middle thumb  (numbers + symbols)
- *   3 Fn    hold BOTH middle thumbs  (F-keys, Bluetooth, restart, bootloader)
+ *   3 Fn    hold BOTH middle thumbs  (Bluetooth, restart, bootloader, F-keys) - same spots as the Lily58
  *   4-5     spare layers for ZMK Studio
  */
 
@@ -76,42 +76,42 @@
 
         nav_layer {
             display-name = "Nav";
-// |      |MUTE |VOL- |VOL+ |PLAY |NEXT |   |PGUP |HOME | UP  | END |SNIP |      |
+// |      |PREV |PLAY |NEXT |VOL- |VOL+ |   |PGUP |HOME | UP  | END |SNIP |      |
 // |      | WIN | ALT |SHFT |CTRL |     |   |PGDN |LEFT |DOWN |RIGHT| DEL |      |
-// |      |     |     |     |     |     |   |PREVTAB|NEXTTAB|   |     |CLOSE|      |
-//                    | ALT |(held)|    |   |     | FN  |     |
+// |      |UNDO | CUT |COPY |PASTE|REDO |   |     |MUTE |     |     |CLOSE|      |
+//                    | ALT |(held)|    |   |     | FN  |DELWORD|
             bindings = <
-&trans &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &kp C_PP  &kp C_NEXT      &kp PG_UP       &kp HOME    &kp UP   &kp END   &kp LG(LS(S)) &trans
-&trans &kp LGUI   &kp LALT     &kp LSHFT    &kp LCTRL &trans          &kp PG_DN       &kp LEFT    &kp DOWN &kp RIGHT &kp DEL       &trans
-&trans &trans     &trans       &trans       &trans    &trans          &kp LC(LS(TAB)) &kp LC(TAB) &trans   &trans    &kp LA(F4)    &trans
-                               &trans       &trans    &trans          &trans          &trans      &trans
+&trans &kp C_PREV &kp C_PP  &kp C_NEXT &kp C_VOL_DN &kp C_VOL_UP      &kp PG_UP &kp HOME   &kp UP   &kp END   &kp LG(LS(S)) &trans
+&trans &kp LGUI   &kp LALT  &kp LSHFT  &kp LCTRL    &trans            &kp PG_DN &kp LEFT   &kp DOWN &kp RIGHT &kp DEL       &trans
+&trans &kp LC(Z)  &kp LC(X) &kp LC(C)  &kp LC(V)    &kp LC(Y)         &trans    &kp C_MUTE &trans   &trans    &kp LA(F4)    &trans
+                            &trans     &trans       &trans            &trans    &trans     &kp LC(BSPC)
             >;
         };
 
         sym_layer {
             display-name = "Sym";
-// |  `   |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  |      |
-// |      |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  |  \   |
-// |      |  [  |  ]  |  {  |  }  |  ~  |   |  -  |  _  |  =  |  +  |  |  |      |
+// |      |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  |      |
+// |  `   |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  |  \   |
+// |      |  [  |  ]  |  {  |  }  |  |  |   |  -  |  _  |  =  |  +  |     |  ~   |
 //                    | ALT | FN  |     |   |     |(held)| DEL |
             bindings = <
-&kp GRAVE &kp N1   &kp N2   &kp N3   &kp N4   &kp N5             &kp N6    &kp N7    &kp N8    &kp N9   &kp N0   &trans
-&trans    &kp EXCL &kp AT   &kp HASH &kp DLLR &kp PRCNT          &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp BSLH
-&trans    &kp LBKT &kp RBKT &kp LBRC &kp RBRC &kp TILDE          &kp MINUS &kp UNDER &kp EQUAL &kp PLUS &kp PIPE &trans
+&trans    &kp N1   &kp N2   &kp N3   &kp N4   &kp N5             &kp N6    &kp N7    &kp N8    &kp N9   &kp N0   &trans
+&kp GRAVE &kp EXCL &kp AT   &kp HASH &kp DLLR &kp PRCNT          &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp BSLH
+&trans    &kp LBKT &kp RBKT &kp LBRC &kp RBRC &kp PIPE           &kp MINUS &kp UNDER &kp EQUAL &kp PLUS &trans   &kp TILDE
                             &trans   &trans   &trans             &trans    &trans    &kp DEL
             >;
         };
 
         fn_layer {
             display-name = "Fn";
+// | BOOT | BT1 | BT2 | BT3 | BT4 | BT5 |   |BTCLR|USB/BT|    |     |     | BOOT |
+// |      |     |     |     |RESTART|    |   |     |     |     |     |     |      |
 // |  F1  | F2  | F3  | F4  | F5  | F6  |   | F7  | F8  | F9  | F10 | F11 | F12  |
-// |      | BT1 | BT2 | BT3 | BT4 | BT5 |   |BTCLR|USB/BT|RESTART|  |     |      |
-// | BOOT |     |     |     |     |     |   |     |     |     |     |     | BOOT |
 //                    |     |(held)|    |   |     |(held)|     |
             bindings = <
-&kp F1      &kp F2       &kp F3       &kp F4       &kp F5       &kp F6             &kp F7     &kp F8       &kp F9     &kp F10 &kp F11 &kp F12
-&none       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4       &bt BT_CLR &out OUT_TOG &sys_reset &none   &none   &none
-&bootloader &none        &none        &none        &none        &none              &none      &none        &none      &none   &none   &bootloader
+&bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4       &bt BT_CLR &out OUT_TOG &none  &none   &none   &bootloader
+&none       &none        &none        &none        &sys_reset   &none              &none      &none        &none  &none   &none   &none
+&kp F1      &kp F2       &kp F3       &kp F4       &kp F5       &kp F6             &kp F7     &kp F8       &kp F9 &kp F10 &kp F11 &kp F12
                                       &none        &trans       &none              &none      &trans       &none
             >;
         };
