@@ -1,0 +1,130 @@
+/*
+ * Chris's Typeractive Corne Wireless (6-column, 42 keys, nice!nano v2), ZMK v0.3.
+ *
+ * Key position numbers (used by combos):
+ *    0  1  2  3  4  5          6  7  8  9 10 11
+ *   12 13 14 15 16 17         18 19 20 21 22 23
+ *   24 25 26 27 28 29         30 31 32 33 34 35
+ *            36 37 38         39 40 41
+ *
+ * Thumbs: left  36 = outer, 37 = middle, 38 = inner (big 1.5u)
+ *         right 39 = inner (big 1.5u), 40 = middle, 41 = outer
+ *
+ * Layers:
+ *   0 Base
+ *   1 Nav   hold left middle thumb   (left hand holds modifiers, right hand moves)
+ *   2 Sym   hold right middle thumb  (numbers + symbols)
+ *   3 Fn    hold BOTH middle thumbs  (F-keys, Bluetooth, restart, bootloader)
+ *   4-5     spare layers for ZMK Studio
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
+
+/ {
+    behaviors {
+        // Tap = Space, hold = Shift. "balanced": Shift only if another key is
+        // pressed AND released while Space is still down, so fast rolls stay spaces.
+        space_shift: space_shift {
+            compatible = "zmk,behavior-hold-tap";
+            display-name = "Space / Shift";
+            #binding-cells = <2>;
+            bindings = <&kp>, <&kp>;
+            tapping-term-ms = <200>;
+            flavor = "balanced";
+        };
+    };
+
+    conditional_layers {
+        compatible = "zmk,conditional-layers";
+
+        // Holding Nav (1) and Sym (2) together turns on Fn (3).
+        tri_layer {
+            if-layers = <1 2>;
+            then-layer = <3>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        combo_dictation {
+            timeout-ms = <50>;
+            key-positions = <38 39>;            // both big inner thumbs -> Ctrl+Win+Space (Wispr Flow)
+            bindings = <&kp LC(LG(SPACE))>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base_layer {
+            display-name = "Base";
+// | TAB  |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U  |  I  |  O  |  P  | ESC  |
+// | SHFT |  A  |  S  |  D  |  F  |  G  |   |  H  |  J  |  K  |  L  |  ;  |  '   |
+// | CTRL |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M  |  ,  |  .  |  /  | WIN  |
+//                    | ALT | NAV |SPC/SHFT| |ENTER| SYM |BKSP |
+            bindings = <
+&kp TAB   &kp Q &kp W &kp E &kp R &kp T                         &kp Y   &kp U  &kp I     &kp O   &kp P    &kp ESC
+&kp LSHFT &kp A &kp S &kp D &kp F &kp G                         &kp H   &kp J  &kp K     &kp L   &kp SEMI &kp SQT
+&kp LCTRL &kp Z &kp X &kp C &kp V &kp B                         &kp N   &kp M  &kp COMMA &kp DOT &kp FSLH &kp LGUI
+                  &kp LALT &mo 1 &space_shift LSHFT SPACE       &kp RET &mo 2  &kp BSPC
+            >;
+        };
+
+        nav_layer {
+            display-name = "Nav";
+// |      |MUTE |VOL- |VOL+ |PLAY |NEXT |   |PGUP |HOME | UP  | END |SNIP |      |
+// |      | WIN | ALT |SHFT |CTRL |     |   |PGDN |LEFT |DOWN |RIGHT| DEL |      |
+// |      |     |     |     |     |     |   |PREVTAB|NEXTTAB|   |     |CLOSE|      |
+//                    | ALT |(held)|    |   |     | FN  |     |
+            bindings = <
+&trans &kp C_MUTE &kp C_VOL_DN &kp C_VOL_UP &kp C_PP  &kp C_NEXT      &kp PG_UP       &kp HOME    &kp UP   &kp END   &kp LG(LS(S)) &trans
+&trans &kp LGUI   &kp LALT     &kp LSHFT    &kp LCTRL &trans          &kp PG_DN       &kp LEFT    &kp DOWN &kp RIGHT &kp DEL       &trans
+&trans &trans     &trans       &trans       &trans    &trans          &kp LC(LS(TAB)) &kp LC(TAB) &trans   &trans    &kp LA(F4)    &trans
+                               &trans       &trans    &trans          &trans          &trans      &trans
+            >;
+        };
+
+        sym_layer {
+            display-name = "Sym";
+// |  `   |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  |      |
+// |      |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  |  \   |
+// |      |  [  |  ]  |  {  |  }  |  ~  |   |  -  |  _  |  =  |  +  |  |  |      |
+//                    | ALT | FN  |     |   |     |(held)| DEL |
+            bindings = <
+&kp GRAVE &kp N1   &kp N2   &kp N3   &kp N4   &kp N5             &kp N6    &kp N7    &kp N8    &kp N9   &kp N0   &trans
+&trans    &kp EXCL &kp AT   &kp HASH &kp DLLR &kp PRCNT          &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp BSLH
+&trans    &kp LBKT &kp RBKT &kp LBRC &kp RBRC &kp TILDE          &kp MINUS &kp UNDER &kp EQUAL &kp PLUS &kp PIPE &trans
+                            &trans   &trans   &trans             &trans    &trans    &kp DEL
+            >;
+        };
+
+        fn_layer {
+            display-name = "Fn";
+// |  F1  | F2  | F3  | F4  | F5  | F6  |   | F7  | F8  | F9  | F10 | F11 | F12  |
+// |      | BT1 | BT2 | BT3 | BT4 | BT5 |   |BTCLR|USB/BT|RESTART|  |     |      |
+// | BOOT |     |     |     |     |     |   |     |     |     |     |     | BOOT |
+//                    |     |(held)|    |   |     |(held)|     |
+            bindings = <
+&kp F1      &kp F2       &kp F3       &kp F4       &kp F5       &kp F6             &kp F7     &kp F8       &kp F9     &kp F10 &kp F11 &kp F12
+&none       &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4       &bt BT_CLR &out OUT_TOG &sys_reset &none   &none   &none
+&bootloader &none        &none        &none        &none        &none              &none      &none        &none      &none   &none   &bootloader
+                                      &none        &trans       &none              &none      &trans       &none
+            >;
+        };
+
+        // Spare layers you can turn on and fill in from ZMK Studio.
+        extra1 {
+            display-name = "Extra 1";
+            status = "reserved";
+        };
+
+        extra2 {
+            display-name = "Extra 2";
+            status = "reserved";
+        };
+    };
+};
