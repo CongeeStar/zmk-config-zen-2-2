@@ -108,12 +108,12 @@
         fn_layer {
             display-name = "Fn";
 // | BOOT | BT1 | BT2 | BT3 | BT4 | BT5 |   |BTCLR|USB/BT|    |     |     | BOOT |
-// |      |     |     |     |RESTART|LIGHT|  |     |     |     |     |     |      |
+// |      |     |     |     |RESTART|LIGHT|  |EFFECT|DIMMER|BRIGHTER|COLOR|  |      |
 // |  F1  | F2  | F3  | F4  | F5  | F6  |   | F7  | F8  | F9  | F10 | F11 | F12  |
 //                    |     |(held)|    |   |     |(held)|     |
             bindings = <
 &bootloader &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4       &bt BT_CLR &out OUT_TOG &none  &none   &none   &bootloader
-&none       &none        &none        &none        &sys_reset   &rgb_ug RGB_TOG    &none      &none        &none  &none   &none   &none
+&none       &none        &none        &none        &sys_reset   &rgb_ug RGB_TOG    &rgb_ug RGB_EFF &rgb_ug RGB_BRD &rgb_ug RGB_BRI &rgb_ug RGB_HUI &none &none
 &kp F1      &kp F2       &kp F3       &kp F4       &kp F5       &kp F6             &kp F7     &kp F8       &kp F9 &kp F10 &kp F11 &kp F12
                                       &none        &trans       &none              &none      &trans       &none
             >;
